@@ -26,7 +26,7 @@ router.use(usersDB.verifyToken);
 router.route("/users").get(usersDB.getUsers).post(usersDB.postUsers);
 router.route("/users/:id").get(usersDB.getUserByID).put(usersDB.putUserByID).delete(usersDB.deleteUserById);
 router.route("/games").get(gamesDB.getGames).post(gamesDB.postGames);
-router.route("/games/:id").get(gamesDB.getGameByID).put(gamesDB.putGameByID).delete(usersDB.deleteGameById);
+router.route("/games/:id").get(gamesDB.getGameByID).put(gamesDB.putGameByID).delete(gamesDB.deleteGameById);
 app.use('/', router);
 app.listen(3000);
 
