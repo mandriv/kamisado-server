@@ -7,32 +7,28 @@ var usersDB = require("./mongoUsers.js");
 // create schema
 var gameSchema = mongoose.Schema({
     name: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
-    player1: {
-      type: String,
-      required: true
+    mode: {
+        type: String,
+        required: true
     },
     player1_ID: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
-    player2: {
+    player2_ID: {
         type: String,
         default: ""
     },
-    player2_ID: {
+    password: {
       type: String,
       default: ""
     },
-    inLobby: {
-        type: Boolean,
-        default: true
-    },
-    finished: {
-        type: Boolean,
-        default: false
+    status: {
+        type: String,
+        default: "inLobby"
     },
     P1score: {
         type: Number,
@@ -51,30 +47,37 @@ var Game = gamesConn.model('Game', gameSchema);
 
 var exports = module.exports = {};
 
+exports.clearDatabase = function() {
+    Game.remove({}, function(err) {
+        console.log('collection removed')
+    });
+}
+
 exports.getGames = function(req, res) {
-  var response = {};
-  Game.find({}, function(err, data){
-    if(err) {
-      response = {
-        "error": true,
-        "message": "Error fetching data"
-      }
-    } else {
-      response = {
-        "error": false,
-        "message": data
-      }
-    }
-    res.json(response);
-  });
+    var response = {};
+    Game.find({}, function(err, data) {
+        if (err) {
+            response = {
+                "error": true,
+                "message": "Error fetching data"
+            }
+        } else {
+            response = {
+                "error": false,
+                "message": data
+            }
+        }
+        res.json(response);
+    });
 }
 
 exports.postGames = function(req, res) {
     var newGame = new Game();
     var response = {};
     newGame.name = req.body.name;
+    newGame.mode = req.body.mode;
+    newGame.password = req.body.password;
     newGame.player1_ID = req.decoded.userID;
-    newGame.player1 = req.decoded.nickname;
     newGame.save(function(err) {
         if (err) {
             response = {
