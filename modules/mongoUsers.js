@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var jwt = require('jsonwebtoken');
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MOGNO_URI, function(err, db) {
+mongoose.connect(process.env.MONGO_URI, function(err, db) {
     if (err) {
         console.log('Unable to connect to the database. Error: ', err);
     } else {
