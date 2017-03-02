@@ -48,8 +48,8 @@ var User = usersConn.model('User', userSchema);
 exports.authenticateUser = function(req, res) {
     var response = {};
     // find the user by e-mail
-    User.findOne({
-        : req.body.email
+    User.findOne({name
+        : req.body.name
     }, function(err, user) {
         if (err) {
             response = {
@@ -162,7 +162,7 @@ exports.postUsers = function(req, res) {
         if (err) {
             response = {
                 "error": true,
-                "message": "that's what i got: "+err.errmsg
+                "message": "that's what i got: " + err.errmsg
             };
         } else {
             response = {
