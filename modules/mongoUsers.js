@@ -69,7 +69,7 @@ exports.authenticateUser = function(req, res) {
             } else {
                 var payload = { userID: user._id.valueOf(),
                 nickname: user.nickname}
-                var token = jwt.sign(payload, secret, {
+                var token = jwt.sign(payload, process.env.SECRET_KEY, {
                     expiresIn: 60 * 60 * 24 // expires in 24 hours
                 });
                 response = {

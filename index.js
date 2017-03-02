@@ -10,9 +10,6 @@ app.use(bodyParser.urlencoded({
     "extended": false
 }));
 
-//gamesDB.clearDatabase();
-//usersDB.clearDatabase();
-
 router.get("/", function(req, res) {
     res.json({
         "error": false,
