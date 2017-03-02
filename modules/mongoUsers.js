@@ -5,7 +5,7 @@ var usersConn = mongoose.createConnection(process.env.MONGO_GAMES);
 
 // create schema
 var userSchema = mongoose.Schema({
-    nickname: {
+    name: {
         type: String,
         required: true,
         index: {
@@ -49,7 +49,7 @@ exports.authenticateUser = function(req, res) {
     var response = {};
     // find the user by e-mail
     User.findOne({
-        email: req.body.email
+        : req.body.email
     }, function(err, user) {
         if (err) {
             response = {
@@ -68,7 +68,7 @@ exports.authenticateUser = function(req, res) {
                 };
             } else {
                 var payload = { userID: user._id.valueOf(),
-                nickname: user.nickname}
+                name: user.name}
                 var token = jwt.sign(payload, process.env.SECRET_KEY, {
                     expiresIn: 60 * 60 * 24 // expires in 24 hours
                 });
@@ -146,7 +146,7 @@ exports.getUsers = function(req, res) {
 exports.postUsers = function(req, res) {
     var newUser = new User();
     var response = {};
-    newUser.nickname = req.body.nickname;
+    newUser.name = req.body.name;
     //add validation
     newUser.email = req.body.email;
     //SHA1 algorithm - see shattered.io
@@ -154,7 +154,7 @@ exports.postUsers = function(req, res) {
         .createHash('sha1')
         .update(req.body.password)
         .digest('base64');
-    if(req.body.admin!=undefined){
+    if(req.body.admin != undefined){
       newUser.admin = req.body.admin;
     }
 
@@ -162,12 +162,12 @@ exports.postUsers = function(req, res) {
         if (err) {
             response = {
                 "error": true,
-                "message": err.errmsg
+                "message": "that's what i got: "+err.errmsg
             };
         } else {
             response = {
                 "error": false,
-                "message": "User " + newUser.nickname + " added to database!"
+                "message": "User " + newUser.name + " added to database!"
             };
         }
         res.json(response);
@@ -255,9 +255,9 @@ exports.putUserByID = function(req, res) {
                 // case where password needs to be updated
                 data.password = req.body.password;
             }
-            if (req.body.nickname !== undefined) {
-                // case where nickname needs to be updated
-                data.nickname = req.body.nickname;
+            if (req.body.name !== undefined) {
+                // case where name needs to be updated
+                data.name = req.body.name;
             }
             // save the data
             data.save(function(err) {
