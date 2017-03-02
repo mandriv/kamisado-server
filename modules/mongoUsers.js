@@ -154,6 +154,9 @@ exports.postUsers = function(req, res) {
         .createHash('sha1')
         .update(req.body.password)
         .digest('base64');
+    if(req.body.admin!=undefined){
+      newUser.admin = req.body.admin;
+    }
 
     newUser.save(function(err) {
         if (err) {

@@ -126,7 +126,7 @@ exports.putGameByID = function(req, res) {
             // we got data from Mongo.
             // change it accordingly.
             if (req.body.join == true) {
-                data.player2 = req.decoded.nickname
+                data.player2 = req.decoded.name
                 data.player2_ID = req.decoded.userID;
                 data.inLobby = false;
             }
