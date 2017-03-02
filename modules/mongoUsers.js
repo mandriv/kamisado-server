@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var jwt = require('jsonwebtoken');
 mongoose.Promise = global.Promise;
-var usersConn = mongoose.createConnection(process.env.MONGO_GAMES);
+var usersConn = mongoose.createConnection(process.env.MONGO_USERS);
 
 // create schema
 var userSchema = mongoose.Schema({
@@ -162,7 +162,7 @@ exports.postUsers = function(req, res) {
         if (err) {
             response = {
                 "error": true,
-                "message": "that's what i got: " + err.errmsg
+                "message": err.errmsg
             };
         } else {
             response = {

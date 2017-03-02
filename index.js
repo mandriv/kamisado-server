@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 //gamesDB.clearDatabase();
-usersDB.clearDatabase();
+//usersDB.clearDatabase();
 
 router.get("/", function(req, res) {
     res.json({
