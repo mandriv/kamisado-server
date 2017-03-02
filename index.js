@@ -31,3 +31,4 @@ app.use('/', router);
 app.listen(3000);
 
 console.log("Server is up and running...");
+console.log(process.env.MONGO_GAMES);
