@@ -25,7 +25,6 @@ router.route("/users/:id").get(usersDB.getUserByID).put(usersDB.putUserByID).del
 router.route("/games").get(gamesDB.getGames).post(gamesDB.postGames);
 router.route("/games/:id").get(gamesDB.getGameByID).put(gamesDB.putGameByID).delete(gamesDB.deleteGameById);
 app.use('/', router);
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 console.log("Server is up and running...");
-console.log(process.env.MONGO_GAMES);
