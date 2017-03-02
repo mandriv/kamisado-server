@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var jwt = require('jsonwebtoken');
 var secret = "WojciechCichoradzki";
 mongoose.Promise = global.Promise;
-var usersConn = mongoose.createConnection('mongodb://localhost:27017/usersDB');
+var usersConn = mongoose.createConnection(process.env.MONGO_GAMES);
 
 // create schema
 var userSchema = mongoose.Schema({
