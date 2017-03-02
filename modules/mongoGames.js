@@ -1,7 +1,6 @@
 var mongoose = require("mongoose");
 var jwt = require('jsonwebtoken');
 mongoose.Promise = global.Promise;
-var gamesConn = mongoose.createConnection(process.env.MONGO_GAMES);
 var usersDB = require("./mongoUsers.js");
 // create schema
 var gameSchema = mongoose.Schema({
@@ -42,7 +41,7 @@ var gameSchema = mongoose.Schema({
         default: 0
     }
 });
-var Game = gamesConn.model('Game', gameSchema);
+var Game = mongoose.model('Game', gameSchema);
 
 var exports = module.exports = {};
 

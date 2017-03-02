@@ -1,7 +1,13 @@
 var mongoose = require("mongoose");
 var jwt = require('jsonwebtoken');
 mongoose.Promise = global.Promise;
-var usersConn = mongoose.createConnection(process.env.MONGO_USERS);
+mongoose.connect(process.env.MOGNO_URI, function(err, db) {
+    if (err) {
+        console.log('Unable to connect to the database. Error: ', err);
+    } else {
+        console.log('Connected to database successfully...');
+    }
+});
 
 // create schema
 var userSchema = mongoose.Schema({
@@ -43,7 +49,7 @@ var userSchema = mongoose.Schema({
 
 var exports = module.exports = {};
 
-var User = usersConn.model('User', userSchema);
+var User = mongoose.model('User', userSchema);
 
 exports.authenticateUser = function(req, res) {
     var response = {};
@@ -157,7 +163,7 @@ exports.postUsers = function(req, res) {
     if(req.body.admin != undefined){
       newUser.admin = req.body.admin;
     }
-    console.log("Trying: " + req.body.name + ", " + req.body.email + ", " + req.body.admin);
+
     newUser.save(function(err) {
         if (err) {
             response = {
