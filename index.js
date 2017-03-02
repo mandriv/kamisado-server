@@ -20,9 +20,8 @@ router.get("/", function(req, res) {
     });
 });
 
-//router.route("/auth").post(usersDB.authenticateUser);
-// route middleware to verify a token
-//router.use(usersDB.verifyToken);
+router.route("/auth").post(usersDB.authenticateUser);
+router.use(usersDB.verifyToken);
 router.route("/users").get(usersDB.getUsers).post(usersDB.postUsers);
 router.route("/users/:id").get(usersDB.getUserByID).put(usersDB.putUserByID).delete(usersDB.deleteUserById);
 router.route("/games").get(gamesDB.getGames).post(gamesDB.postGames);
