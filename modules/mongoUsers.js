@@ -157,7 +157,7 @@ exports.postUsers = function(req, res) {
     if(req.body.admin != undefined){
       newUser.admin = req.body.admin;
     }
-
+    console.log("Trying: " + req.body.name + ", " + req.body.email + ", " + req.body.admin);
     newUser.save(function(err) {
         if (err) {
             response = {
