@@ -15,7 +15,7 @@ var gameSchema = mongoose.Schema({
     pointLimit: {
         type: Number,
         required: true
-    }
+    },
     player1_ID: {
         type: String,
         required: true
