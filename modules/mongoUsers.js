@@ -100,7 +100,7 @@ exports.verifyToken = function(req, res, next) {
     if (token) {
 
         // verifies secret and checks exp
-        jwt.verify(token, secret, function(err, decoded) {
+        jwt.verify(token, process.env.MONGO_URI, function(err, decoded) {
             if (err) {
                 return res.json({
                     "error": false,
@@ -152,7 +152,6 @@ exports.getUsers = function(req, res) {
 }
 //POST /users
 exports.postUsers = function(req, res) {
-  console.log(req);
     var newUser = new User();
     var response = {};
     newUser.name = req.body.name;
