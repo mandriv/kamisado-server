@@ -100,7 +100,7 @@ exports.verifyToken = function(req, res, next) {
     if (token) {
 
         // verifies secret and checks exp
-        jwt.verify(token, process.env.MONGO_URI, function(err, decoded) {
+        jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
             if (err) {
                 return res.json({
                     "error": false,
