@@ -200,48 +200,7 @@ exports.getUserByID = function(req, res) {
         res.json(response);
     });
 }
-var gameSchema = mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    player1: {
-        type: String,
-        required: true
-    },
-    player1_ID: {
-        type: String,
-        required: true
-    },
-    player2: {
-        type: String,
-        default: ""
-    },
-    player2_ID: {
-        type: String,
-        default: ""
-    },
-    inLobby: {
-        type: Boolean,
-        default: true
-    },
-    finished: {
-        type: Boolean,
-        default: false
-    },
-    P1score: {
-        type: Number,
-        default: 0
-    },
-    P2score: {
-        type: Number,
-        default: 0
-    },
-    time: {
-        type: Number,
-        default: 0
-    }
-});
+
 exports.putUserByID = function(req, res) {
     var response = {};
     // first find out record exists or not
