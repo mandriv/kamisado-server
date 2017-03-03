@@ -54,13 +54,13 @@ var User = mongoose.model('User', userSchema);
 exports.authenticateUser = function(req, res) {
     var response = {};
     // find the user by e-mail
-    User.findOne({name
-        : req.body.name
+    User.findOne({
+        name: req.body.name
     }, function(err, user) {
         if (err) {
             response = {
                 "error": true,
-                "message": JSON.stringify(err)
+                "message": err.errmsg
             };
         } else {
             var inputPassword = require('crypto')
@@ -73,8 +73,10 @@ exports.authenticateUser = function(req, res) {
                     "message": "Authentication failed. Wrong password"
                 };
             } else {
-                var payload = { userID: user._id.valueOf(),
-                name: user.name}
+                var payload = {
+                    userID: user._id.valueOf(),
+                    name: user.name
+                }
                 var token = jwt.sign(payload, process.env.SECRET_KEY, {
                     expiresIn: 60 * 60 * 24 // expires in 24 hours
                 });
@@ -150,6 +152,7 @@ exports.getUsers = function(req, res) {
 }
 //POST /users
 exports.postUsers = function(req, res) {
+  console.log(req);
     var newUser = new User();
     var response = {};
     newUser.name = req.body.name;
@@ -160,8 +163,8 @@ exports.postUsers = function(req, res) {
         .createHash('sha1')
         .update(req.body.password)
         .digest('base64');
-    if(req.body.admin != undefined){
-      newUser.admin = req.body.admin;
+    if (req.body.admin != undefined) {
+        newUser.admin = req.body.admin;
     }
 
     newUser.save(function(err) {
@@ -200,24 +203,24 @@ exports.getUserByID = function(req, res) {
 }
 var gameSchema = mongoose.Schema({
     name: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     player1: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     player1_ID: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     player2: {
         type: String,
         default: ""
     },
     player2_ID: {
-      type: String,
-      default: ""
+        type: String,
+        default: ""
     },
     inLobby: {
         type: Boolean,
