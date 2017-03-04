@@ -41,6 +41,10 @@ var userSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    eloRating: {
+        type: Number,
+        default: 1000
+    },
     admin: {
         type: Boolean,
         default: false
@@ -83,7 +87,8 @@ exports.authenticateUser = function(req, res) {
                 response = {
                     "error": false,
                     "message": "Token acquired!",
-                    "token": token
+                    "token": token,
+                    "userID": user._id
                 };
             }
         }
