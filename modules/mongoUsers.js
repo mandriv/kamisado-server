@@ -33,7 +33,7 @@ var userSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    gamesPlayerd: {
+    gamesPlayed: {
         type: Number,
         default: 0
     },
