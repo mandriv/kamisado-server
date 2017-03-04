@@ -58,6 +58,13 @@ var User = mongoose.model('User', userSchema);
 exports.authenticateUser = function(req, res) {
     var response = {};
     // find the user by e-mail
+    if(req.body.name == null || req.body.password == null){
+      response = {
+        "error": true,
+        "message": "password/username is null"
+      }
+      res.json(response);
+    }
     User.findOne({
         name: req.body.name
     }, function(err, user) {
