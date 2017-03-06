@@ -77,7 +77,7 @@ exports.authenticateUser = function(req, res) {
                 "message": err.errmsg
             };
         } else {
-            if (!user) {
+            if (user.length == 0) {
                 reponse = {
                     "error": true,
                     "message": "user not found"
