@@ -46,8 +46,8 @@ var userSchema = mongoose.Schema({
         default: 1000
     },
     avatar: {
-      type: String,
-      default: "TCP-Human-1.jpg"
+        type: String,
+        default: "TCP-Human-1.jpg"
     },
     admin: {
         type: Boolean,
@@ -62,12 +62,12 @@ var User = mongoose.model('User', userSchema);
 exports.authenticateUser = function(req, res) {
     var response = {};
     // find the user by e-mail
-    if(req.body.name == null || req.body.password == null){
-      response = {
-        "error": true,
-        "message": "password/username is null"
-      }
-      res.json(response);
+    if (req.body.name == null || req.body.password == null) {
+        response = {
+            "error": true,
+            "message": "password/username is null"
+        }
+        res.json(response);
     }
     User.findOne({
         name: req.body.name
@@ -78,38 +78,43 @@ exports.authenticateUser = function(req, res) {
                 "message": err.errmsg
             };
         } else {
-          if(user == null){
-            reponse = {
-              "error": true,
-              "message": "user not found"
-            }
-          } else {
-            var inputPassword = require('crypto')
-                .createHash('sha1')
-                .update(req.body.password)
-                .digest('base64');
-            if (user.password != inputPassword) {
-                response = {
-                    "error": true,
-                    "message": "Authentication failed. Wrong password"
-                };
-            } else {
-                var payload = {
-                    userID: user._id.valueOf(),
-                    name: user.name
-                }
-                var token = jwt.sign(payload, process.env.SECRET_KEY, {
-                    expiresIn: 60 * 60 * 24 // expires in 24 hours
-                });
-                response = {
-                    "error": false,
-                    "message": "Token acquired!",
-                    "token": token,
-                    "userID": user._id
-                };
-            }
+          response = {
+            "error": false,
+            "message": user
           }
-
+          /*
+            if (user == null) {
+                reponse = {
+                    "error": true,
+                    "message": "user not found"
+                }
+            } else {
+                var inputPassword = require('crypto')
+                    .createHash('sha1')
+                    .update(req.body.password)
+                    .digest('base64');
+                if (user.password != inputPassword) {
+                    response = {
+                        "error": true,
+                        "message": "Authentication failed. Wrong password"
+                    };
+                } else {
+                    var payload = {
+                        userID: user._id.valueOf(),
+                        name: user.name
+                    }
+                    var token = jwt.sign(payload, process.env.SECRET_KEY, {
+                        expiresIn: 60 * 60 * 24 // expires in 24 hours
+                    });
+                    response = {
+                        "error": false,
+                        "message": "Token acquired!",
+                        "token": token,
+                        "userID": user._id
+                    };
+                }
+            }
+            */
         }
         res.json(response);
     });
