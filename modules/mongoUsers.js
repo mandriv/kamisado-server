@@ -78,13 +78,11 @@ exports.authenticateUser = function(req, res) {
             };
         } else {
             if (user == null) {
-                console.log("jestem tu");
-                reponse = {
+                response = {
                     "error": true,
                     "message": "user not found"
                 };
             } else {
-              console.log("tu mam nadzieje ze mnie nie ma");
                 var inputPassword = require('crypto')
                     .createHash('sha1')
                     .update(req.body.password)
@@ -110,7 +108,6 @@ exports.authenticateUser = function(req, res) {
                     };
                 }
             }
-            console.log("response:"+response);
         }
         res.json(response);
     });
