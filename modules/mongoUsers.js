@@ -71,7 +71,6 @@ exports.authenticateUser = function(req, res) {
     User.findOne({
         name: req.body.name
     }, function(err, user) {
-      console.log(user);
         if (err) {
             response = {
                 "error": true,
@@ -79,11 +78,13 @@ exports.authenticateUser = function(req, res) {
             };
         } else {
             if (user == null) {
+                console.log("jestem tu");
                 reponse = {
                     "error": true,
                     "message": "user not found"
                 };
             } else {
+              console.log("tu mam nadzieje ze mnie nie ma");
                 var inputPassword = require('crypto')
                     .createHash('sha1')
                     .update(req.body.password)
@@ -109,6 +110,7 @@ exports.authenticateUser = function(req, res) {
                     };
                 }
             }
+            console.log("response:"+response);
         }
         res.json(response);
     });
