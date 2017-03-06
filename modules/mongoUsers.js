@@ -61,7 +61,6 @@ var User = mongoose.model('User', userSchema);
 
 exports.authenticateUser = function(req, res) {
     var response = {};
-    // find the user by e-mail
     if (req.body.name == null || req.body.password == null) {
         response = {
             "error": true,
@@ -78,7 +77,7 @@ exports.authenticateUser = function(req, res) {
                 "message": err.errmsg
             };
         } else {
-            if (user === null) {
+            if (!user) {
                 reponse = {
                     "error": true,
                     "message": "user not found"
