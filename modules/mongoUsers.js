@@ -57,7 +57,7 @@ var userSchema = mongoose.Schema({
 
 var exports = module.exports = {};
 
-var User = mongoose.model('User', userSchema);
+var User = mongoose.model('User', userSchema, 'Users');
 
 exports.authenticateUser = function(req, res) {
     var response = {};
