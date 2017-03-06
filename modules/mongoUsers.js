@@ -45,6 +45,10 @@ var userSchema = mongoose.Schema({
         type: Number,
         default: 1000
     },
+    avatar: {
+      type: String,
+      default: "TCP-Human-1.jpg"
+    },
     admin: {
         type: Boolean,
         default: false
