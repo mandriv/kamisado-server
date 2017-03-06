@@ -57,7 +57,7 @@ var userSchema = mongoose.Schema({
 
 var exports = module.exports = {};
 
-var User = mongoose.model('User', userSchema, 'Users');
+var User = mongoose.model('User', userSchema);
 
 exports.authenticateUser = function(req, res) {
     var response = {};
@@ -78,6 +78,12 @@ exports.authenticateUser = function(req, res) {
                 "message": err.errmsg
             };
         } else {
+          if(user == null){
+            reponse = {
+              "error": true,
+              "message": "user not found"
+            }
+          } else {
             var inputPassword = require('crypto')
                 .createHash('sha1')
                 .update(req.body.password)
@@ -102,6 +108,8 @@ exports.authenticateUser = function(req, res) {
                     "userID": user._id
                 };
             }
+          }
+
         }
         res.json(response);
     });
