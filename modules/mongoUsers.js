@@ -78,12 +78,7 @@ exports.authenticateUser = function(req, res) {
                 "message": err.errmsg
             };
         } else {
-          response = {
-            "error": false,
-            "message": user
-          }
-          /*
-            if (user == null) {
+            if (user === null) {
                 reponse = {
                     "error": true,
                     "message": "user not found"
@@ -114,7 +109,6 @@ exports.authenticateUser = function(req, res) {
                     };
                 }
             }
-            */
         }
         res.json(response);
     });
