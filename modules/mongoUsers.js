@@ -208,17 +208,18 @@ exports.postUsers = function(req, res) {
             } else {
                 response = {
                     "error": false,
-                    "message": "User " + newUser.name + " added to database!"
+                    "message": newUser.name + " successfully registered"
                 };
             }
+            res.json(response);
         });
     } else {
-      response = {
-        "error": true,
-        "message": "Invalid data (name, email or password)"
-      }
+        response = {
+            "error": true,
+            "message": "Invalid data (name, email or password)"
+        }
     }
-    
+
     res.json(response);
 }
 
