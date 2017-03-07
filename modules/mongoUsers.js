@@ -172,36 +172,54 @@ exports.getUsers = function(req, res) {
         res.json(response);
     });
 }
+
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 //POST /users
 exports.postUsers = function(req, res) {
     var newUser = new User();
     var response = {};
-    newUser.name = req.body.name;
-    //add validation
-    newUser.email = req.body.email;
-    //SHA1 algorithm - see shattered.io
-    newUser.password = require('crypto')
-        .createHash('sha1')
-        .update(req.body.password)
-        .digest('base64');
-    if (req.body.admin != undefined) {
-        newUser.admin = req.body.admin;
-    }
 
-    newUser.save(function(err) {
-        if (err) {
-            response = {
-                "error": true,
-                "message": err.errmsg
-            };
-        } else {
-            response = {
-                "error": false,
-                "message": "User " + newUser.name + " added to database!"
-            };
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+
+    if (name.length >= 3 && validateEmail(email) && password.length >= 5) {
+        newUser.name = req.body.name;
+        //add validation
+        newUser.email = req.body.email;
+        //SHA1 algorithm - see shattered.io
+        newUser.password = require('crypto')
+            .createHash('sha1')
+            .update(req.body.password)
+            .digest('base64');
+        if (req.body.admin != undefined) {
+            newUser.admin = req.body.admin;
         }
-        res.json(response);
-    });
+        newUser.save(function(err) {
+            if (err) {
+                response = {
+                    "error": true,
+                    "message": err.errmsg
+                };
+            } else {
+                response = {
+                    "error": false,
+                    "message": "User " + newUser.name + " added to database!"
+                };
+            }
+        });
+    } else {
+      response = {
+        "error": true,
+        "message": "Invalid data (name, email or password)"
+      }
+    }
+    
+    res.json(response);
 }
 
 exports.getUserByID = function(req, res) {
