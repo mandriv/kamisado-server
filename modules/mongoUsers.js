@@ -211,14 +211,16 @@ exports.postUsers = function(req, res) {
                     "message": newUser.name + " successfully registered"
                 };
             }
+            res.json(response);
         });
     } else {
         response = {
             "error": true,
             "message": "Invalid data (name, email or password)"
         }
+        res.json(response);
     }
-    res.json(response);
+
 }
 
 exports.getUserByID = function(req, res) {
