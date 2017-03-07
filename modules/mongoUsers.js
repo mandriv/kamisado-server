@@ -196,15 +196,27 @@ exports.postUsers = function(req, res) {
             .createHash('sha1')
             .update(req.body.password)
             .digest('base64');
-        if (req.body.admin != undefined) {
-            newUser.admin = req.body.admin;
-        }
         newUser.save(function(err) {
             if (err) {
-                response = {
-                    "error": true,
-                    "message": err.errmsg
-                };
+              if(err.errmsg.includes("duplicate")){
+                if(err.errmsg.includes("user")){
+                  response = {
+                      "error": true,
+                      "message": "User already exists!"
+                  };
+                } else if (err.errmsg.includes("email")) {
+                  response = {
+                      "error": true,
+                      "message": "E-mail adress already registered!"
+                  };
+                } else {
+                  response = {
+                      "error": true,
+                      "message": err.errmsg
+                  };
+                }
+              }
+
             } else {
                 response = {
                     "error": false,
@@ -214,9 +226,21 @@ exports.postUsers = function(req, res) {
             res.json(response);
         });
     } else {
+      if(name.length < 3){
         response = {
             "error": true,
-            "message": "Invalid data (name, email or password)"
+            "message": "Username needs to be at least 3 characters long"
+          }
+      } else if(!validateEmail(email)){
+        response = {
+            "error": true,
+            "message": "Invalid e-mail adress!"
+          }
+        } else {
+          response = {
+              "error": true,
+              "message": "Password is too short!"
+            }
         }
         res.json(response);
     }
