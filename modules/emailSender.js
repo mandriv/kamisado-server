@@ -19,7 +19,7 @@ exports.sendResetPassword = function (address, password, callback) {
   };
 
   // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions, function (error, info) {
       callback(error, info);
   });
 }
