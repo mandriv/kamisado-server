@@ -9,7 +9,7 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-exports.sendResetPassword = function (address, password) {
+exports.sendResetPassword = function (address, password, callback) {
   // setup email data with unicode symbols
   let mailOptions = {
       from: '"Kamisado Admin" <wojciech.cichoradzki@gmail.com>', // sender address
@@ -20,9 +20,6 @@ exports.sendResetPassword = function (address, password) {
 
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-          return console.log(error);
-      }
-      console.log('Message %s sent: %s', info.messageId, info.response);
+      callback(error, info);
   });
 }

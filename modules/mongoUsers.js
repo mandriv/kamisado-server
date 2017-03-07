@@ -344,39 +344,52 @@ exports.deleteUserById = function(req, res) {
 };
 
 exports.resetPassword = function(req, res) {
-  var response = {};
-  if (req.params.id == req.decoded.userID) {
-    User.findById(req.params.id, function(err, user) {
-        if (err) {
-            response = {
-                "error": true,
-                "message": "Error fetching data"
-            };
-        } else {
-            user.password = random.getRandomPassword();
-            // save the data
-            user.save(function(err) {
-                if (err) {
-                    response = {
-                        "error": true,
-                        "message": "Error updating data"
-                    };
-                } else {
-                  mail.sendResetPassword(user.email, random.getRandomPassword())
-                    response = {
-                        "error": false,
-                        "message": "Password reset"
-                    };
-                }
-                res.json(response);
-            })
+    var response = {};
+    if (req.params.id == req.decoded.userID) {
+        User.findById(req.params.id, function(err, user) {
+            if (err) {
+                response = {
+                    "error": true,
+                    "message": "Error fetching data"
+                };
+            } else {
+                user.password = random.getRandomPassword();
+                // save the data
+                user.save(function(err) {
+                    if (err) {
+                        response = {
+                            "error": true,
+                            "message": "Error updating data"
+                        };
+                    } else {
+                        mail.sendResetPassword(user.email,
+                            random.getRandomPassword(),
+                            function(error, info) {
+                                if (error) {
+                                    console.log(error);
+                                    response = {
+                                        "error": true,
+                                        "message": "Password reset failed"
+                                    };
+                                } else {
+                                    console.log('Message %s sent: %s', info.messageId, info.response);
+                                    response = {
+                                        "error": false,
+                                        "message": "Password reset"
+                                    };
+                                }
+
+                            });
+                    }
+                    res.json(response);
+                })
+            }
+        });
+    } else {
+        response = {
+            "error": true,
+            "message": "Can't reset someone else password"
         }
-    });
-  } else {
-    response = {
-      "error": true,
-      "message": "Can't reset someone else password"
+        res.json(response);
     }
-    res.json(response);
-  }
 }
