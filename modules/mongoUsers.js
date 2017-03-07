@@ -1,4 +1,6 @@
 var mongoose = require("mongoose");
+var random = require("./randomPassword.js");
+var mail = require("./emailSender.js");
 var jwt = require('jsonwebtoken');
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_URI, function(err, db) {
@@ -340,3 +342,41 @@ exports.deleteUserById = function(req, res) {
         }
     });
 };
+
+exports.resetPassword = function(req, res) {
+  var response = {};
+  if (req.params.id == req.decoded.userID) {
+    User.findById(req.params.id, function(err, user) {
+        if (err) {
+            response = {
+                "error": true,
+                "message": "Error fetching data"
+            };
+        } else {
+            user.password = random.getRandomPassword();
+            // save the data
+            user.save(function(err) {
+                if (err) {
+                    response = {
+                        "error": true,
+                        "message": "Error updating data"
+                    };
+                } else {
+                  mail.sendResetPassword(user.email, random.getRandomPassword())
+                    response = {
+                        "error": false,
+                        "message": "Password reset"
+                    };
+                }
+                res.json(response);
+            })
+        }
+    });
+  } else {
+    response = {
+      "error": true,
+      "message": "Can't reset someone else password"
+    }
+    res.json(response);
+  }
+}
