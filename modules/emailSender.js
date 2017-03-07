@@ -2,20 +2,20 @@ const nodemailer = require('nodemailer');
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'Yandex',
     auth: {
-        user: 'wojciech.cichoradzki@gmail.com',
-        pass: process.env.GMAIL_PASS
+        user: process.env.YANDEX_USERNAME,
+        pass: process.env.YANDEX_PASSWORD
     }
 });
 
 exports.sendResetPassword = function (address, password, callback) {
   // setup email data with unicode symbols
   let mailOptions = {
-      from: '"Kamisado Admin" <wojciech.cichoradzki@gmail.com>', // sender address
+      from: 'kamisado-cs207@yandex.com', // sender address
       to: address, // list of receivers
       subject: 'Kamisado - Password reset', // Subject line
-      text: 'New password: '+password, // plain text body
+      text: 'New password: ' + password, // plain text body
   };
 
   // send mail with defined transport object
