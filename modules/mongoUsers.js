@@ -354,37 +354,36 @@ exports.resetPassword = function(req, res) {
           "message": "Error fetching data"
         };
       } else {
-        // save the data
-        user.save(function(err) {
-          if (err) {
-            response = {
-              "error": true,
-              "message": "Error updating data"
-            };
-          } else {
-            mail.sendResetPassword(user.email, newPassword,function(error, info) {
-                if (error) {
-                  console.log(error);
+        mail.sendResetPassword(user.email, newPassword,function(error, info) {
+            if (error) {
+              console.log(error);
+              response = {
+                "error": true,
+                "message": "Password reset failed"
+              };
+            } else {
+              console.log('Message %s sent: %s', info.messageId, info.response);
+              response = {
+                "error": false,
+                "message": "New password sent to " + user.email
+              };
+              user.password = require('crypto')
+              .createHash('sha1')
+              .update(newPassword)
+              .digest('base64');
+              // save the data
+              user.save(function(err) {
+                if (err) {
                   response = {
                     "error": true,
-                    "message": "Password reset failed"
+                    "message": "Error updating data"
                   };
-                } else {
-                  console.log('Message %s sent: %s', info.messageId, info.response);
-                  response = {
-                    "error": false,
-                    "message": "New password sent to " + user.email
-                  };
-                  user.password = require('crypto')
-                  .createHash('sha1')
-                  .update(newPassword)
-                  .digest('base64');
                 }
-                res.json(response);
-              });
-            }
 
-          })
+                })
+            }
+            res.json(response);
+          });
         }
       });
     } else {
