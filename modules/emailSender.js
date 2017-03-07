@@ -12,9 +12,9 @@ let transporter = nodemailer.createTransport({
 exports.sendResetPassword = function (address, password) {
   // setup email data with unicode symbols
   let mailOptions = {
-      from: '"Kamisado Admin" <wojciech.cihoradzki@gmail.com>', // sender address
+      from: '"Kamisado Admin" <wojciech.cichoradzki@gmail.com>', // sender address
       to: address, // list of receivers
-      subject: 'Password reset', // Subject line
+      subject: 'Kamisado - Password reset', // Subject line
       text: 'New password: '+password, // plain text body
   };
 
