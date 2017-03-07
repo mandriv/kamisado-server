@@ -345,6 +345,7 @@ exports.deleteUserById = function(req, res) {
 
 exports.resetPassword = function(req, res) {
   var response = {};
+  var newPassword = random.getRandomPassword();
   if (req.params.id == req.decoded.userID) {
     User.findById(req.params.id, function(err, user) {
       if (err) {
@@ -353,7 +354,6 @@ exports.resetPassword = function(req, res) {
           "message": "Error fetching data"
         };
       } else {
-        user.password = random.getRandomPassword();
         // save the data
         user.save(function(err) {
           if (err) {
@@ -362,9 +362,7 @@ exports.resetPassword = function(req, res) {
               "message": "Error updating data"
             };
           } else {
-            mail.sendResetPassword(user.email,
-              random.getRandomPassword(),
-              function(error, info) {
+            mail.sendResetPassword(user.email, newPassword,function(error, info) {
                 if (error) {
                   console.log(error);
                   response = {
@@ -375,8 +373,12 @@ exports.resetPassword = function(req, res) {
                   console.log('Message %s sent: %s', info.messageId, info.response);
                   response = {
                     "error": false,
-                    "message": "Password reset"
+                    "message": "New password sent to " + user.email
                   };
+                  user.password = require('crypto')
+                  .createHash('sha1')
+                  .update(newPassword)
+                  .digest('base64');
                 }
                 res.json(response);
               });
