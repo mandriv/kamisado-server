@@ -80,7 +80,7 @@ exports.authenticateUser = function(req, res) {
             if (user == null) {
                 response = {
                     "error": true,
-                    "message": "user not found"
+                    "message": "User not found"
                 };
             } else {
                 var inputPassword = require('crypto')
@@ -90,7 +90,7 @@ exports.authenticateUser = function(req, res) {
                 if (user.password != inputPassword) {
                     response = {
                         "error": true,
-                        "message": "Authentication failed. Wrong password"
+                        "message": "Wrong password"
                     };
                 } else {
                     var payload = {
@@ -102,7 +102,7 @@ exports.authenticateUser = function(req, res) {
                     });
                     response = {
                         "error": false,
-                        "message": "Token acquired!",
+                        "message": "Authenticated",
                         "token": token,
                         "userID": user._id
                     };
@@ -140,7 +140,7 @@ exports.verifyToken = function(req, res, next) {
         // if there is no token
         // return an error
         return res.status(403).send({
-            error: false,
+            error: true,
             message: 'No token provided.'
         });
 
