@@ -198,24 +198,24 @@ exports.postUsers = function(req, res) {
             .digest('base64');
         newUser.save(function(err) {
             if (err) {
-              if(err.errmsg.includes("duplicate")){
-                if(err.errmsg.includes("user")){
-                  response = {
-                      "error": true,
-                      "message": "User already exists!"
-                  };
-                } else if (err.errmsg.includes("email")) {
-                  response = {
-                      "error": true,
-                      "message": "E-mail adress already registered!"
-                  };
+                if (err.errmsg.includes("duplicate")) {
+                    if (err.errmsg.includes("name")) {
+                        response = {
+                            "error": true,
+                            "message": "User already exists"
+                        };
+                    } else if (err.errmsg.includes("email")) {
+                        response = {
+                            "error": true,
+                            "message": "E-mail adress already registered"
+                        };
+                    }
                 } else {
-                  response = {
-                      "error": true,
-                      "message": err.errmsg
-                  };
+                    response = {
+                        "error": true,
+                        "message": err.errmsg
+                    };
                 }
-              }
 
             } else {
                 response = {
@@ -226,20 +226,20 @@ exports.postUsers = function(req, res) {
             res.json(response);
         });
     } else {
-      if(name.length < 3){
-        response = {
-            "error": true,
-            "message": "Username needs to be at least 3 characters long"
-          }
-      } else if(!validateEmail(email)){
-        response = {
-            "error": true,
-            "message": "Invalid e-mail adress!"
-          }
+        if (name.length < 3) {
+            response = {
+                "error": true,
+                "message": "Username needs to be at least 3 characters long"
+            }
+        } else if (!validateEmail(email)) {
+            response = {
+                "error": true,
+                "message": "Invalid e-mail adress"
+            }
         } else {
-          response = {
-              "error": true,
-              "message": "Password is too short!"
+            response = {
+                "error": true,
+                "message": "Password needs to be at least 5 characters long"
             }
         }
         res.json(response);
