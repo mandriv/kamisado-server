@@ -211,7 +211,6 @@ exports.postUsers = function(req, res) {
                     "message": newUser.name + " successfully registered"
                 };
             }
-            res.json(response);
         });
     } else {
         response = {
@@ -219,7 +218,6 @@ exports.postUsers = function(req, res) {
             "message": "Invalid data (name, email or password)"
         }
     }
-
     res.json(response);
 }
 
