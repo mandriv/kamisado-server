@@ -85,7 +85,7 @@ exports.postGames = function(req, res) {
         if (err) {
             response = {
                 "error": true,
-                "message": err.errmsg
+                "message": err
             };
         } else {
             response = {
