@@ -22,7 +22,7 @@ router.route("/users").post(usersDB.postUsers);
 router.use(usersDB.verifyToken);
 router.route("/users").get(usersDB.getUsers);
 router.route("/users/:id").get(usersDB.getUserByID).put(usersDB.putUserByID).delete(usersDB.deleteUserById);
-router.route("/users/:id/resetPassword").get(usersDB.resetPassword);
+router.route("/users/resetPassword").post(usersDB.resetPassword);
 router.route("/games").get(gamesDB.getGames).post(gamesDB.postGames);
 router.route("/games/:id").get(gamesDB.getGameByID).put(gamesDB.putGameByID).delete(gamesDB.deleteGameById);
 
