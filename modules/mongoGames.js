@@ -20,6 +20,10 @@ var gameSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    rank: {
+      type: Number,
+      required: true
+    },
     player2_ID: {
         type: String,
         default: ""
@@ -80,12 +84,13 @@ exports.postGames = function(req, res) {
     newGame.mode = req.body.mode;
     newGame.password = req.body.password;
     newGame.pointLimit = req.body.limit;
+    newGame.rank = req.body.rank;
     newGame.player1_ID = req.decoded.userID;
     newGame.save(function(err) {
         if (err) {
             response = {
                 "error": true,
-                "message": err
+                "message": err.message
             };
         } else {
             response = {
