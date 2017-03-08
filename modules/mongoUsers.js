@@ -372,7 +372,7 @@ exports.resetPassword = function(req, res) {
                         console.log('Message %s sent: %s', info.messageId, info.response);
                         response = {
                             "error": false,
-                            "message": "New password of user "+user.name+" sent to " + user.email
+                            "message": "New password of user "+user.name+" was sent to " + user.email
                         };
                         user.password = require('crypto')
                             .createHash('sha1')
