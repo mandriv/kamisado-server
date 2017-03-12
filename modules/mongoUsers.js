@@ -290,19 +290,37 @@ exports.putUserByID = function(req, res) {
                     "error": true,
                     "message": "Invalid e-mail address"
                   }
-                  res.json(response);
                 }
             }
-            if (req.body.password !== undefined) {
-                // case where password needs to be updated
-                data.password = req.body.password;
-            }
-            if (req.body.name !== undefined) {
-                // case where name needs to be updated
-                data.name = req.body.name;
+            if (req.body.newPassword !== undefined && req.body.oldPasword !== undefined) {
+                if(data.password === require('crypto')
+                    .createHash('sha1')
+                    .update(req.body.oldPassword)
+                    .digest('base64')){
+                      if(newPassword.length >= 5){
+                        data.password = require('crypto')
+                            .createHash('sha1')
+                            .update(req.body.newPassword)
+                            .digest('base64');
+                        response = {
+                          "error": false,
+                          "message": "Successfully changed password"
+                        }
+                      } else {
+                        reponse = {
+                          "error": true,
+                          "message": "New password has to be at least 5 characters"
+                        }
+                      }
+
+                    } else {
+                      response = {
+                        "error": true,
+                        "message": "Invalid password"
+                      }
+                    }
             }
             if (req.body.avatar !== undefined) {
-                // case where name needs to be updated
                 data.avatarNum = req.body.avatar;
             }
             // save the data
@@ -311,11 +329,6 @@ exports.putUserByID = function(req, res) {
                     response = {
                         "error": true,
                         "message": "Error updating data"
-                    };
-                } else {
-                    response = {
-                        "error": false,
-                        "message": "Data is updated for " + req.params.id
                     };
                 }
                 res.json(response);
