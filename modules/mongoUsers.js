@@ -283,7 +283,15 @@ exports.putUserByID = function(req, res) {
             // change it accordingly.
             if (req.body.email !== undefined) {
                 // case where email needs to be updated.
-                data.email = req.body.email;
+                if(validateEmail(req.body.email)){
+                  data.email = req.body.email;
+                } else {
+                  response = {
+                    "error": true,
+                    "message": "Invalid e-mail address"
+                  }
+                  res.json(response);
+                }
             }
             if (req.body.password !== undefined) {
                 // case where password needs to be updated
