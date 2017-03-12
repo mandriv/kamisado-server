@@ -47,9 +47,9 @@ var userSchema = mongoose.Schema({
         type: Number,
         default: 1000
     },
-    avatar: {
-        type: String,
-        default: "1"
+    avatarNum: {
+        type: Number,
+        default: 1
     },
     admin: {
         type: Boolean,
