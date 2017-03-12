@@ -295,7 +295,7 @@ exports.putUserByID = function(req, res) {
             }
             if (req.body.avatar !== undefined) {
                 // case where name needs to be updated
-                data.avatar = req.body.avatar;
+                data.avatarNum = req.body.avatar;
             }
             // save the data
             data.save(function(err) {
