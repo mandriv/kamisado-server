@@ -299,7 +299,7 @@ exports.putUserByID = function(req, res) {
                   .update(req.body.oldPassword)
                   .digest('base64');
                 if (data.password == oldPasswordHashed) {
-                    if (newPassword.length >= 5) {
+                    if (req.body.newPassword.length >= 5) {
                         data.password = require('crypto')
                             .createHash('sha1')
                             .update(req.body.newPassword)
