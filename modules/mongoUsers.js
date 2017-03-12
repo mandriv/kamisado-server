@@ -49,7 +49,7 @@ var userSchema = mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: "TCP-Human-1.jpg"
+        default: "1"
     },
     admin: {
         type: Boolean,
@@ -292,6 +292,10 @@ exports.putUserByID = function(req, res) {
             if (req.body.name !== undefined) {
                 // case where name needs to be updated
                 data.name = req.body.name;
+            }
+            if (req.body.avatar !== undefined) {
+                // case where name needs to be updated
+                data.avatar = req.body.avatar;
             }
             // save the data
             data.save(function(err) {
