@@ -283,43 +283,46 @@ exports.putUserByID = function(req, res) {
             // change it accordingly.
             if (req.body.email !== undefined) {
                 // case where email needs to be updated.
-                if(validateEmail(req.body.email)){
-                  data.email = req.body.email;
+                if (validateEmail(req.body.email)) {
+                    data.email = req.body.email;
                 } else {
-                  response = {
-                    "error": true,
-                    "message": "Invalid e-mail address"
-                  }
+                    response = {
+                        "error": true,
+                        "message": "Invalid e-mail address"
+                    };
                 }
             }
+            
             if (req.body.newPassword !== undefined && req.body.oldPasword !== undefined) {
-                if(data.password === require('crypto')
-                    .createHash('sha1')
-                    .update(req.body.oldPassword)
-                    .digest('base64')){
-                      if(newPassword.length >= 5){
+              var oldPasswordHashed = require('crypto')
+                  .createHash('sha1')
+                  .update(req.body.oldPassword)
+                  .digest('base64');
+                if (data.password == oldPasswordHashed) {
+                    if (newPassword.length >= 5) {
                         data.password = require('crypto')
                             .createHash('sha1')
                             .update(req.body.newPassword)
                             .digest('base64');
                         response = {
-                          "error": false,
-                          "message": "Successfully changed password"
+                            "error": false,
+                            "message": "Successfully changed password"
                         }
-                      } else {
-                        reponse = {
-                          "error": true,
-                          "message": "New password has to be at least 5 characters"
-                        }
-                      }
-
                     } else {
-                      response = {
+                        reponse = {
+                            "error": true,
+                            "message": "New password has to be at least 5 characters"
+                        }
+                    }
+
+                } else {
+                    response = {
                         "error": true,
                         "message": "Invalid password"
-                      }
                     }
+                }
             }
+
             if (req.body.avatar !== undefined) {
                 data.avatarNum = req.body.avatar;
             }
@@ -397,7 +400,7 @@ exports.resetPassword = function(req, res) {
                         console.log('Message %s sent: %s', info.messageId, info.response);
                         response = {
                             "error": false,
-                            "message": "New password of user "+user.name+" was sent to " + user.email
+                            "message": "New password of user " + user.name + " was sent to " + user.email
                         };
                         user.password = require('crypto')
                             .createHash('sha1')
