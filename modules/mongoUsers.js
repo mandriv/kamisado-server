@@ -292,8 +292,9 @@ exports.putUserByID = function(req, res) {
                     };
                 }
             }
-            
+
             if (req.body.newPassword !== undefined && req.body.oldPasword !== undefined) {
+              console.log("jestem tu");
               var oldPasswordHashed = require('crypto')
                   .createHash('sha1')
                   .update(req.body.oldPassword)
