@@ -31,8 +31,12 @@ router.route("/games/:id").get(gamesDB.getGameByID).put(gamesDB.putGameByID).del
 app.use('/', router);
 
 io.on('connection', function(socket){
+  console.log("Connection");
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
+  });
+  socket.on('disconnect', function(){
+    console.log("Disconnection");
   });
 });
 
