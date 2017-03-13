@@ -1,5 +1,7 @@
 var express = require("express");
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 var bodyParser = require("body-parser");
 var usersDB = require("./modules/mongoUsers.js");
 var gamesDB = require("./modules/mongoGames.js");
@@ -28,6 +30,12 @@ router.route("/games/:id").get(gamesDB.getGameByID).put(gamesDB.putGameByID).del
 
 app.use('/', router);
 
-app.listen(process.env.PORT || 3000);
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+});
+
+server.listen(process.env.PORT || 3000);
 
 console.log("Server is up and running...");

@@ -29,6 +29,7 @@
     "jsonwebtoken": "^7.3.0",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.5",
-    "nodemailer": "^3.1.4"
+    "nodemailer": "^3.1.4",
+    "socket.io": "^1.7.3"
   }
 }
