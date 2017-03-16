@@ -329,6 +329,10 @@ exports.putUserByID = function(req, res) {
 
             if (req.body.avatar !== undefined) {
                 data.avatarNum = req.body.avatar;
+                response = {
+                  "error": false,
+                  "message": "Avatar changed successfully"
+                }
             }
             // save the data
             data.save(function(err) {
