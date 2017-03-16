@@ -285,6 +285,10 @@ exports.putUserByID = function(req, res) {
                 // case where email needs to be updated.
                 if (validateEmail(req.body.email)) {
                     data.email = req.body.email;
+                    response = {
+                      "error": false,
+                      "message": "E-mail address changed successfully"
+                    }
                 } else {
                     response = {
                         "error": true,
