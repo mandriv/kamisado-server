@@ -313,7 +313,7 @@ exports.putUserByID = function(req, res) {
                             "message": "Successfully changed password"
                         }
                     } else {
-                        reponse = {
+                        response = {
                             "error": true,
                             "message": "New password has to be at least 5 characters"
                         }
